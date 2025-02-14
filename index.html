@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Valentine Love Letter</title>
+    <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap" rel="stylesheet">
+    <style>
+        body {
+            background: linear-gradient(145deg, #fce4ec, #f8bbd0, #f48fb1);
+            text-align: center;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .container {
+            position: relative;
+            text-align: center;
+            z-index: 2;
+        }
+
+        .envelope-wrapper {
+            position: relative;
+            z-index: 3;
+        }
+
+        .envelope {
+            position: relative;
+            width: 80vw;
+            height: 45vw;
+            background-color: #ff6b6b;
+            overflow: hidden;
+            z-index: 2;
+            max-width: 320px;
+            max-height: 200px;
+
+        }
+
+        .top {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 50%;
+            background-color: #d64545;
+            clip-path: polygon(0 0, 100% 0, 50% 100%);
+            z-index: 3;
+            transition: transform 1.5s ease;
+            transform-origin: top;
+        }
+
+        .bottom {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 50%;
+            background-color: #ff8787;
+            z-index: 1;
+        }
+
+        .letter {
+            position: absolute;
+            bottom: -100%;
+            left: 10px;
+            width: 75vw;
+            height: 35vw;
+            background-color: #fff;
+            border-radius: 5px;
+            padding: 10px;
+            text-align: center;
+            transition: bottom 1.5s ease;
+            z-index: 2;
+            background-image: repeating-linear-gradient(white, white 28px, #f8bbd0 29px, #f8bbd0 30px);
+            max-width: 300px;
+            max-height: 160px;
+        }
+
+        .family-text {
+            font-family: 'Great Vibes', cursive;
+            font-size: 24px;
+            color: #333;
+            margin-bottom: 10px;
+        }
+
+        .valentine-text {
+            font-size: 20px;
+            font-weight: bold;
+            color: black;
+            text-shadow: 0 0 15px rgba(255, 0, 0, 0.8);
+            margin: 0;
+        }
+
+        .open-button {
+            margin-top: 30px;
+            padding: 10px 20px;
+            font-size: 18px;
+            color: white;
+            background-color: #ff4081;
+            border: none;
+            border-radius: 25px;
+            box-shadow: 0 0 15px #ff4081, 0 0 30px #ff6b6b;
+            cursor: pointer;
+            position: absolute;
+            bottom: 20px;
+            transition: all 0.3s ease;
+        }
+
+        .open-button:hover {
+            transform: scale(1.1);
+            font-weight: bold;
+            box-shadow: 0 0 25px #ff4081, 0 0 50px #ff6b6b;
+        }
+
+        /* دایره قلب ها */
+        .hearts-circle {
+            position: absolute;
+            width: 80vw;
+            height: 80vw;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            display: none;
+            animation: rotateCircle 8s linear infinite;
+            max-width: 400px;
+            max-height: 400px;
+        }
+
+        .heart-icon {
+            position: absolute;
+            font-size: 28px;
+            color: #ff1744;
+        }
+
+        @keyframes rotateCircle {
+            from {
+                transform: translate(-50%, -50%) rotate(0deg);
+            }
+            to {
+                transform: translate(-50%, -50%) rotate(360deg);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="envelope-wrapper" id="envelopeWrapper">
+            <div class="envelope" id="envelope">
+                <div class="top" id="top"></div>
+                <div class="bottom"></div>
+                <div class="letter" id="letter">
+                    <p class="family-text">Dedicato alla mia cara famiglia</p>
+                    <p class="valentine-text">Happy Valentine Day💞</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- ظرف دایره قلب‌ها -->
+        <div class="hearts-circle" id="heartsCircle"></div>
+    </div>
+
+    <button class="open-button" onclick="openEnvelope()">Open</button>
+
+    <script>
+        function openEnvelope() {
+            const top = document.getElementById('top');
+            const letter = document.getElementById('letter');
+            const heartsCircle = document.getElementById('heartsCircle');
+
+            // باز شدن در پاکت
+            top.style.transform = 'rotateX(180deg)';
+            letter.style.bottom = '30px';
+
+            // قلب ها بعد 1.5 ثانیه نمایان بشن
+            setTimeout(() => {
+                heartsCircle.style.display = 'block';
+                createRotatingHearts();
+            }, 1500);
+        }
+
+        function createRotatingHearts() {
+            const heartsCircle = document.getElementById('heartsCircle');
+            heartsCircle.innerHTML = ''; // پاک کردن قبلی
+
+            const totalHearts = 24; // تعداد قلب‌ها
+            const radius = 180; // اینجا دایره رو بزرگ کردم
+
+            for (let i = 0; i < totalHearts; i++) {
+                const angle = (i * (360 / totalHearts)) * (Math.PI / 180);
+
+                const x = radius * Math.cos(angle) + 180; // 100 = نصف اندازه دایره
+                const y = radius * Math.sin(angle) + 180;
+
+                const heart = document.createElement('div');
+                heart.classList.add('heart-icon');
+                heart.innerHTML = '❤';
+
+                heart.style.left = '${x}px';
+                heart.style.top = '${y}px';
+
+                heartsCircle.appendChild(heart);
+            }
+        }
+    </script>
+</body>
+</html>
